@@ -1,8 +1,8 @@
-import { useState, useEffect } from "React";
+import { useState, useEffect } from "react";
 import Error from "./Error";
 
 //
-const Formulario = ({ pacientes, setPacientes }) => {
+const Formulario = ({ pacientes, setPacientes, paciente, setPaciente }) => {
   const [nombre, setNombre] = useState("");
   const [propietario, setPropietario] = useState("");
   const [email, setEmail] = useState("");
@@ -10,6 +10,12 @@ const Formulario = ({ pacientes, setPacientes }) => {
   const [sintomas, setSintomas] = useState("");
 
   const [error, setError] = useState(false);
+
+  useEffect(() => {
+    if (Object.keys(paciente).length > 0) {
+      setNombre(paciente.nombre);
+    }
+  }, [paciente]);
 
   const generarId = () => {
     const random = Math.random().toString(36).substring(2);
@@ -30,7 +36,7 @@ const Formulario = ({ pacientes, setPacientes }) => {
     setError(false);
 
     //Objetos de Pacientes
-    const objPacientes = {
+    const objPaciente = {
       nombre,
       propietario,
       email,
@@ -39,7 +45,7 @@ const Formulario = ({ pacientes, setPacientes }) => {
       id: generarId(),
     };
     //console.log(objPacientes);
-    setPacientes([...pacientes, objPacientes]);
+    setPacientes([...pacientes, objPaciente]);
 
     //Reiniciar el Form
     setNombre("");
@@ -147,8 +153,8 @@ const Formulario = ({ pacientes, setPacientes }) => {
         </div>
         <input
           type="submit"
-          value="Agregar contratista"
           className="bg-indigo-600 w-full p-3 text-white uppercase font-bold hover:bg-indigo-900 cursor-pointer transition-all"
+          value={paciente.id ? "Editar Paciente" : "Agregar Paciente"}
         />
       </form>
     </div>
